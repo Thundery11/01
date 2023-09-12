@@ -1,13 +1,23 @@
 import express from "express";
-const app = express();
+import bodyParser from "body-parser";
+export const app = express();
 const port = 3000;
 
 
-const products = [{id: 1, title: 'tomatto'}, {id: 1, title: 'orange'}]
+let products = [{id: 1, title: 'tomatto'}, {id: 2, title: 'orange'}]
 const adress = [{ id: 1, value: 'Dimitrova70'}, {id: 2, value: 'Polosy20'}]
-
+const jsonBodyMiddleware = express.json()
+const parserMiddleware = bodyParser({})
+app.use(jsonBodyMiddleware)
+app.use(parserMiddleware)
+// app.use
 app.get('/products', (req, res)=>{
+  if(req.query.title){
+      let searchString = req.query.title.toString()
+      res.send(products.filter(p => p.title.indexOf(searchString) > -1))
+  }else{
   res.send(products)
+  }
 })
 app.get('/products/:id', (req, res)=>{
   req.params.id
@@ -30,6 +40,43 @@ app.get('/adress/:id', (req, res)=>{
   }
   
 })
+app.delete('/products/:id', (req, res)=>{
+  for(let i = 0; i < products.length; i++){
+    if(products[i].id === +req.params.id){
+      products.splice(i, 1);
+      res.send(204)
+      return;
+    }
+  }
+  }
+)
+app.post("/products", (req, res)=>{
+const newProduct = {
+  id: +(new Date()),
+  title: req.body.title
+}
+products.push(newProduct)
+res.status(201).send(newProduct)
+
+})  
+app.put('/products/:id', (req, res)=>{
+ if(!req.body.title){
+  res.send(400)
+  return;
+ }
+  let product = products.find(s => s.id === +req.params.id)
+  if(!product){
+    res.send(404);
+    return;
+  } 
+  product.title = req.body.title
+  res.send(204)
+  
+
+  
+})
+
+
 // app.get('/adress/leninsky', (req, res)=>{
 //   let street = adress.find(s => s.value === 'Polosy 20')
 //   res.send(street)
