@@ -30,3 +30,37 @@ const videoDb = [{
             AvailableResolution.P144
         ]
     }];
+exports.app.get('/videos', (req, res) => {
+    res.send(videoDb);
+});
+exports.app.get('videos/:id', (req, res) => {
+    const id = +req.params.id;
+    const video = videoDb.find(video => video.id === id);
+    if (!video) {
+        res.sendStatus(404);
+        return;
+    }
+    else {
+        res.send(video);
+    }
+});
+exports.app.post('/videos', (req, res) => {
+    let errors = {
+        errorMessages: []
+    };
+    let { title, author, availableResolutions } = req.body;
+    if (!title || !title.length || title.trim().length > 40) {
+        errors.errorMessages.push({ message: 'Invalid title', field: 'title' });
+    }
+    if (!author || author.trim().length > 20 || !author) {
+        errors.errorMessages.push({ message: 'Invalid author', field: 'author' });
+    }
+    if (Array.isArray(availableResolutions) && availableResolutions.length) {
+        availableResolutions.map((r) => {
+            !AvailableResolution[r] && errors.errorMessages.push({
+                message: 'Invalid availableResolutions',
+                field: "availableResolutions"
+            });
+        });
+    }
+});
