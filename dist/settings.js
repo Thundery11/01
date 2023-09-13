@@ -59,8 +59,30 @@ exports.app.post('/videos', (req, res) => {
         availableResolutions.map((r) => {
             !AvailableResolution[r] && errors.errorMessages.push({
                 message: 'Invalid availableResolutions',
-                field: "availableResolutions"
+                field: "availableResolutions",
             });
         });
     }
+    else {
+        availableResolutions = [];
+    }
+    if (errors.errorMessages.length) {
+        res.sendStatus(400).send(errors);
+        return;
+    }
+    const createdAt = new Date();
+    const publicationDate = new Date();
+    publicationDate.setDate(createdAt.getDate() + 1);
+    const newVideo = {
+        id: +(new Date()),
+        title,
+        author,
+        canBeDownloaded: true,
+        minAgeRestriction: null,
+        createdAt: createdAt.toISOString(),
+        publicationDate: publicationDate.toISOString(),
+        availableResolutions
+    };
+    videoDb.push(newVideo);
+    res.status(201).send(newVideo);
 });

@@ -66,18 +66,44 @@ const videoDb: VideoType[] =[{
       errorMessages: []
     }
     let {title, author, availableResolutions} = req.body
+
     if (!title || !title.length || title.trim().length > 40 ){
       errors.errorMessages.push({message: 'Invalid title', field: 'title'})
     }
+
     if(!author || author.trim().length > 20 || !author){
       errors.errorMessages.push({message: 'Invalid author', field: 'author'})
     }
+
     if(Array.isArray(availableResolutions) && availableResolutions.length){
     availableResolutions.map((r) =>{
       !AvailableResolution[r] && errors.errorMessages.push({
         message: 'Invalid availableResolutions',
-        field: "availableResolutions"
+        field: "availableResolutions",
     })  
-    }
-    )
+    })
+  } else {
+    availableResolutions = []
+  }
+  if(errors.errorMessages.length){
+    res.sendStatus(400).send(errors)
+    return
+  }
+
+  const createdAt = new Date()
+  const publicationDate = new Date()
+  publicationDate.setDate(createdAt.getDate() + 1)
+  const newVideo: VideoType ={
+    id: +(new Date()),
+    title,
+    author,
+    canBeDownloaded: true,
+    minAgeRestriction: null,
+    createdAt: createdAt.toISOString(),
+    publicationDate:publicationDate.toISOString(),
+    availableResolutions
+  }
+  videoDb.push(newVideo)
+  res.status(201).send(newVideo)
+
   })
