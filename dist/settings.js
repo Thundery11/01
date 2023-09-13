@@ -31,7 +31,7 @@ const videoDb = [{
         ]
     }];
 exports.app.get('/videos', (req, res) => {
-    res.send(videoDb);
+    res.status(200).send(videoDb);
 });
 exports.app.get('videos/:id', (req, res) => {
     const id = +req.params.id;
@@ -41,7 +41,7 @@ exports.app.get('videos/:id', (req, res) => {
         return;
     }
     else {
-        res.send(video);
+        res.status(200).send(video);
     }
 });
 exports.app.post('/videos', (req, res) => {

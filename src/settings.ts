@@ -25,9 +25,6 @@ type VideoType ={
     createdAt: string,
     publicationDate: string,
     availableResolutions: AvailableResolution[]
-
-
-
 }
 const videoDb: VideoType[] =[{
     id: 0,
@@ -43,7 +40,7 @@ const videoDb: VideoType[] =[{
   }]
 
   app.get('/videos', (req : Request, res : Response)=>{
-    res.send(videoDb);
+    res.status(200).send(videoDb);
   })
   app.get('videos/:id', (req: RequestWithParams<{id:number}> ,res : Response)=>{
     const id = +req.params.id
@@ -52,7 +49,7 @@ const videoDb: VideoType[] =[{
       res.sendStatus(404)
       return
     } else {
-      res.send(video)
+      res.status(200).send(video)
     }
 
   })
