@@ -99,7 +99,7 @@ exports.app.delete('/videos/:id', (req, res) => {
             return;
         }
         else {
-            res.send(404);
+            res.sendStatus(404).send('sorry, can`t find video');
         }
     }
 });

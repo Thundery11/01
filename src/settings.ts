@@ -118,7 +118,7 @@ for(let i = 0; i < videoDb.length; i++){
     res.sendStatus(204).send()
     return
   } else{
-    res.send(404)
+    res.sendStatus(404).send('sorry, can`t find video')
   }
 }
   })
