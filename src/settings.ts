@@ -6,6 +6,7 @@ app.use(express.json())
 
 type RequestWithParams<P> = Request<P, {}, {}, {}>
 type RequestWithBody<B> = Request<{}, {}, B, {}>
+type RequestWithParamsAndBody<PB> = Request<PB, {}, PB, {} >
 type ErrorMessages = {
   message: string,
   field: string
@@ -21,7 +22,7 @@ type VideoType ={
     title: string,
     author: string,
     canBeDownloaded: boolean,
-    minAgeRestriction: number | null,
+    minAgeRestriction: null | number  ,
     createdAt: string,
     publicationDate: string,
     availableResolutions: AvailableResolution[]
@@ -53,6 +54,53 @@ const videoDb: VideoType[] =[{
     }
 
   })
+
+app.put('/videos/:id', (req: RequestWithParamsAndBody<{id: number, 
+  title: string, author: string, availableResolutions: AvailableResolution[],
+  canBeDownloaded : boolean,  minAgeRestriction: number, publicationDate: string
+ }>, res: Response)=>{
+let errors : ErrorType ={
+  errorMessages: []
+}
+const id = +(req.params.id)
+let {title, author, availableResolutions, canBeDownloaded, minAgeRestriction, publicationDate} = req.body
+if(!title || title.trim().length > 40 || !title.length){
+  errors.errorMessages.push({message: 'Invalid title', field: 'title'})
+}
+if(!author || !author.length || author.trim().length > 20){
+  errors.errorMessages.push({message: 'invalid author', field: 'author'})
+}
+if(Array.isArray(availableResolutions) && availableResolutions.length){
+  availableResolutions.map(v =>{
+    !AvailableResolution[v] && errors.errorMessages.push({
+      message: 'Invalid availableResolutions',
+      field: 'availableResolutions'
+    })
+  }) 
+}else{
+    availableResolutions = []
+  }
+if(typeof canBeDownloaded !== "boolean"){
+  errors.errorMessages.push({
+    message: 'not valid type',
+    field: 'canBeDownloaded'
+  })
+} else{
+  canBeDownloaded = false
+}
+if(!minAgeRestriction || typeof minAgeRestriction !== 'number' ||  minAgeRestriction > 1 && minAgeRestriction < 18){
+  errors.errorMessages.push({
+    message: 'not valid minAgeRestriction',
+    field: 'minAgeRestriction'
+  })
+} else{
+  minAgeRestriction    //couldn`t assign null
+}
+// if(!publicationDate){
+//   videoDb.
+// }
+
+})
 
 
 
