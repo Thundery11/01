@@ -42,7 +42,7 @@ const videoDb: VideoType[] =[{
   app.get('/videos', (req : Request, res : Response)=>{
     res.status(200).send(videoDb);
   })
-  app.get('videos/:id', (req: RequestWithParams<{id:number}> ,res : Response)=>{
+  app.get('/videos/:id', (req: RequestWithParams<{id:number}> ,res : Response)=>{
     const id = +req.params.id
     const video = videoDb.find(video => video.id === id)
     if(video){
