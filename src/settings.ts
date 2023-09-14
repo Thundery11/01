@@ -116,10 +116,7 @@ for(let i = 0; i < videoDb.length; i++){
   if(videoDb[i].id === id){
     videoDb.splice(i, 1)
     res.sendStatus(204).send()
-    
-  } else{
-    res.sendStatus(404).send('sorry, can`t find video')
-    
+    return
   }
 }
   })
