@@ -72,21 +72,19 @@ exports.app.put('/videos/:id', (req, res) => {
             field: 'canBeDownloaded'
         });
     }
-    else {
-        canBeDownloaded = false;
-    }
     if (!minAgeRestriction || typeof minAgeRestriction !== 'number' || minAgeRestriction > 1 && minAgeRestriction < 18) {
         errors.errorMessages.push({
             message: 'not valid minAgeRestriction',
             field: 'minAgeRestriction'
         });
     }
-    else {
-        minAgeRestriction; //couldn`t assign null
-    }
     // if(!publicationDate){
     //   videoDb.
     // }
+    if (errors.errorMessages.length) {
+        res.sendStatus(400).send(errors);
+        return;
+    }
     const video = videoDb.find(v => v.id === id);
     if (video) {
         video.author = author;
@@ -95,7 +93,7 @@ exports.app.put('/videos/:id', (req, res) => {
         video.canBeDownloaded = canBeDownloaded;
         video.minAgeRestriction = minAgeRestriction;
         video.publicationDate = publicationDate;
-        res.send(video);
+        res.send(204);
     }
     else {
         res.send(404);
