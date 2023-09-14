@@ -103,22 +103,9 @@ exports.app.put("/videos/:id", (req, res) => {
   }
   if (videoDb.find((i) => i.id !== id)) {
     res.send(404);
+  } else {
+    res.send(videoDb);
   }
-  const createdAt = new Date();
-  const publicationDates = new Date();
-  publicationDate.setDate(createdAt.getDate() + 1);
-  const newVideo = {
-    id: +new Date(),
-    title,
-    author,
-    canBeDownloaded: true,
-    minAgeRestriction: null,
-    createdAt: createdAt.toISOString(),
-    publicationDate: publicationDates.toISOString(),
-    availableResolutions,
-  };
-  videoDb.push(newVideo);
-  res.status(201).send(newVideo);
 });
 exports.app.post("/videos", (req, res) => {
   let errors = {
