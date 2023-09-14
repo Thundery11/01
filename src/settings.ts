@@ -105,7 +105,20 @@ const videoDb: VideoType[] =[{
 
   })
 
-  app.delete('/videos', (req, res)=>{
+  app.delete('/videos', (req: Request, res: Response)=>{
     videoDb.length = 0
     res.sendStatus(204).send()
+  })
+
+  app.delete('/videos/:id', (req: RequestWithParams<{id : number}>, res: Response)=>{
+    const id = +(req.params.id)
+for(let i = 0; i < videoDb.length; i++){
+  if(videoDb[i].id === id){
+    videoDb.splice(i, 1)
+    res.sendStatus(204).send()
+    return
+  } else{
+    res.send(404)
+  }
+}
   })

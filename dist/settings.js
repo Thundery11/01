@@ -90,3 +90,16 @@ exports.app.delete('/videos', (req, res) => {
     videoDb.length = 0;
     res.sendStatus(204).send();
 });
+exports.app.delete('/videos/:id', (req, res) => {
+    const id = +(req.params.id);
+    for (let i = 0; i < videoDb.length; i++) {
+        if (videoDb[i].id === id) {
+            videoDb.splice(i, 1);
+            res.sendStatus(204).send();
+            return;
+        }
+        else {
+            res.send(404);
+        }
+    }
+});
