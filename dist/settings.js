@@ -92,6 +92,10 @@ exports.app.delete('/videos', (req, res) => {
 });
 exports.app.delete('/videos/:id', (req, res) => {
     const id = +(req.params.id);
+    const videoFordelete = videoDb.find(v => v.id === id);
+    if (!videoFordelete) {
+        res.sendStatus(404).send('haven`t got video');
+    }
     for (let i = 0; i < videoDb.length; i++) {
         if (videoDb[i].id === id) {
             videoDb.splice(i, 1);
