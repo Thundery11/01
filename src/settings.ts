@@ -104,6 +104,10 @@ const video = videoDb.find(v => v.id === id)
 if (video){
   video.author = author
   video.title = title
+  video.availableResolutions = availableResolutions
+  video.canBeDownloaded = canBeDownloaded
+  video.minAgeRestriction = minAgeRestriction
+  video.publicationDate = publicationDate
   res.send(video)
 
 } else{
