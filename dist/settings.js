@@ -36,12 +36,11 @@ exports.app.get('/videos', (req, res) => {
 exports.app.get('videos/:id', (req, res) => {
     const id = +req.params.id;
     const video = videoDb.find(video => video.id === id);
-    if (!video) {
-        res.sendStatus(404);
-        return;
+    if (video) {
+        res.status(200).send(video);
     }
     else {
-        res.status(200).send(video);
+        res.sendStatus(404);
     }
 });
 exports.app.post('/videos', (req, res) => {
@@ -94,7 +93,7 @@ exports.app.delete('/videos/:id', (req, res) => {
     const id = +(req.params.id);
     const videoFordelete = videoDb.find(v => v.id === id);
     if (!videoFordelete) {
-        res.sendStatus(404).send('haven`t got video');
+        res.sendStatus(404).send('haven`t got video'); // not executed
     }
     for (let i = 0; i < videoDb.length; i++) {
         if (videoDb[i].id === id) {

@@ -45,11 +45,11 @@ const videoDb: VideoType[] =[{
   app.get('videos/:id', (req: RequestWithParams<{id:number}> ,res : Response)=>{
     const id = +req.params.id
     const video = videoDb.find(video => video.id === id)
-    if(!video){
-      res.sendStatus(404)
-      return
-    } else {
+    if(video){
+      
       res.status(200).send(video)
+    } else {
+      res.sendStatus(404)
     }
 
   })
@@ -114,7 +114,7 @@ const videoDb: VideoType[] =[{
     const id = +(req.params.id)
     const videoFordelete = videoDb.find(v => v.id === id)
     if(!videoFordelete){
-      res.sendStatus(404).send('haven`t got video')
+      res.sendStatus(404).send('haven`t got video') // not executed
     }
 for(let i = 0; i < videoDb.length; i++){
   if(videoDb[i].id === id){
