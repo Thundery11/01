@@ -96,7 +96,6 @@ exports.app.delete('/videos/:id', (req, res) => {
         if (videoDb[i].id === id) {
             videoDb.splice(i, 1);
             res.sendStatus(204).send();
-            return;
         }
         else {
             res.sendStatus(404).send('sorry, can`t find video');
