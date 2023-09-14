@@ -100,6 +100,15 @@ if(!minAgeRestriction || typeof minAgeRestriction !== 'number' ||  minAgeRestric
 //   videoDb.
 // }
 
+const video = videoDb.find(v => v.id === id)
+if (video){
+  video.author = author
+  video.title = title
+  res.send(video)
+
+} else{
+  res.send(404)
+}
 })
 
 
