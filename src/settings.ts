@@ -1,5 +1,4 @@
 import express , {Request, Response} from "express"; 
-import bodyParser from "body-parser";
 export const app = express();
 
 app.use(express.json())
@@ -27,11 +26,11 @@ type VideoType ={
     publicationDate: string,
     availableResolutions: AvailableResolution[]
 }
-const videoDb: VideoType[] =[{
+export const videoDb: VideoType[] =[{
     id: 0,
     title: "string",
     author: "string",
-    canBeDownloaded: true,
+    canBeDownloaded: false,
     minAgeRestriction: null,
     createdAt: "2023-09-12T15:45:16.047Z",
     publicationDate: "2023-09-12T15:45:16.047Z",
