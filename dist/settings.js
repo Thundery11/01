@@ -86,3 +86,7 @@ exports.app.post('/videos', (req, res) => {
     videoDb.push(newVideo);
     res.status(201).send(newVideo);
 });
+exports.app.delete('/videos', (req, res) => {
+    videoDb.length = 0;
+    res.sendStatus(204).send();
+});

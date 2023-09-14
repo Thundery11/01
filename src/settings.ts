@@ -104,3 +104,8 @@ const videoDb: VideoType[] =[{
   res.status(201).send(newVideo)
 
   })
+
+  app.delete('/videos', (req, res)=>{
+    videoDb.length = 0
+    res.sendStatus(204).send()
+  })
