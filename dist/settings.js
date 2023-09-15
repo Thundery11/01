@@ -78,6 +78,12 @@ exports.app.put('/videos/:id', (req, res) => {
             field: 'minAgeRestriction'
         });
     }
+    if (!publicationDate || typeof publicationDate !== 'string') {
+        errors.errorsMessages.push({
+            message: 'not valid publicationDate',
+            field: 'publicationDate'
+        });
+    }
     if (errors.errorsMessages.length) {
         res.status(400).send(errors);
         return;
@@ -102,7 +108,6 @@ exports.app.post('/videos', (req, res) => {
     };
     let { title, author, availableResolutions } = req.body;
     if (!title || !title.length || title.trim().length > 40) {
-        // res.sendStatus(400).send({errorsMessages:[{message:'Invalid title', field: 'title'}]})
         errors.errorsMessages.push({ message: 'Invalid title', field: 'title' });
     }
     if (!author || author.trim().length > 20 || !author) {

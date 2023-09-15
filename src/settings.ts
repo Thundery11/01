@@ -93,6 +93,13 @@ if(!minAgeRestriction || typeof minAgeRestriction !== 'number' || minAgeRestrict
   })
 } 
 
+if(!publicationDate ||typeof publicationDate !== 'string'){
+  errors.errorsMessages.push({
+    message: 'not valid publicationDate',
+    field: 'publicationDate'
+  })
+}
+
 if(errors.errorsMessages.length){
   res.status(400).send(errors)
   return
@@ -124,7 +131,6 @@ if (video){
     let {title, author, availableResolutions} = req.body
 
     if (!title || !title.length || title.trim().length > 40 ){
-      // res.sendStatus(400).send({errorsMessages:[{message:'Invalid title', field: 'title'}]})
       errors.errorsMessages.push({message: 'Invalid title', field: 'title'})
       
     }
