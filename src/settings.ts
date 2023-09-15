@@ -124,8 +124,8 @@ if (video){
     let {title, author, availableResolutions} = req.body
 
     if (!title || !title.length || title.trim().length > 40 ){
-      res.sendStatus(400).send({errorsMessages:[{message:'Invalid title', field: 'title'}]})
-      // errors.errorMessages.push({message: 'Invalid title', field: 'title'})
+      // res.sendStatus(400).send({errorsMessages:[{message:'Invalid title', field: 'title'}]})
+      errors.errorMessages.push({message: 'Invalid title', field: 'title'})
       
     }
 
