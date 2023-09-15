@@ -165,7 +165,7 @@ if (video){
 
   })
 
-  app.delete('/videos', (req: Request, res: Response)=>{
+  app.delete('/testing/all-data', (req: Request, res: Response)=>{
     videoDb.length = 0
     res.sendStatus(204).send()
   })

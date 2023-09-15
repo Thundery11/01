@@ -1,9 +1,9 @@
 import request from 'supertest'
 import {app, videoDb} from '../src/settings'
-describe('/videos', ()=>{
+describe('/testing/all-data', ()=>{
     it('should return 204 and delete all videos',async () => {
         await request(app)
-        .delete('/videos')
+        .delete('/testing/all-data')
         .expect(204)
     })
     it('should return 200 and array of objects', async ()=>{
