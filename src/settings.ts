@@ -154,7 +154,7 @@ if (video){
     id: +(new Date()),
     title,
     author,
-    canBeDownloaded: true,
+    canBeDownloaded: false,
     minAgeRestriction: null,
     createdAt: createdAt.toISOString(),
     publicationDate:publicationDate.toISOString(),

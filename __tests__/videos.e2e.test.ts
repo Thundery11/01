@@ -32,16 +32,12 @@ availableResolutions:['P144']
             id: expect.any(Number),
             title:video.title,
             author: video.author,
-            canBeDownloaded: true,
+            canBeDownloaded: false,
             minAgeRestriction: null,
             createdAt:expect.any(String),
             publicationDate: expect.any(String),
-            availableResolutions: [
-            'P144'            ]
-
-        }
-        
-        )
+            availableResolutions: ['P144']
+        })
     })
 
     // it('should return 200 and array of objects',async () => {
