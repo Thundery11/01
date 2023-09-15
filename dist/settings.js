@@ -79,7 +79,7 @@ exports.app.put('/videos/:id', (req, res) => {
         });
     }
     if (errors.errorMessages.length) {
-        res.sendStatus(400).send(errors);
+        res.status(400).send(errors);
         return;
     }
     const video = exports.videoDb.find(v => v.id === id);
@@ -120,7 +120,7 @@ exports.app.post('/videos', (req, res) => {
         availableResolutions = [];
     }
     if (errors.errorMessages.length) {
-        res.sendStatus(400).send(errors);
+        res.status(400).send(errors);
         return;
     }
     const createdAt = new Date();

@@ -94,7 +94,7 @@ if(!minAgeRestriction || typeof minAgeRestriction !== 'number' || minAgeRestrict
 } 
 
 if(errors.errorMessages.length){
-  res.sendStatus(400).send(errors)
+  res.status(400).send(errors)
   return
 }
 
@@ -144,7 +144,7 @@ if (video){
     availableResolutions = []
   }
   if(errors.errorMessages.length){
-    res.sendStatus(400).send(errors)
+    res.status(400).send(errors)
     return
   }
 
