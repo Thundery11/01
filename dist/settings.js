@@ -72,7 +72,7 @@ exports.app.put('/videos/:id', (req, res) => {
             field: 'canBeDownloaded'
         });
     }
-    if (!minAgeRestriction || typeof minAgeRestriction !== 'number' || minAgeRestriction > 18 && minAgeRestriction < 1) {
+    if (!minAgeRestriction || typeof minAgeRestriction !== 'number' || minAgeRestriction > 18) {
         errors.errorsMessages.push({
             message: 'not valid minAgeRestriction',
             field: 'minAgeRestriction'

@@ -86,7 +86,7 @@ if(typeof canBeDownloaded !== "boolean"){
   })
 } 
 
-if(!minAgeRestriction || typeof minAgeRestriction !== 'number' || minAgeRestriction > 18 && minAgeRestriction < 1 ){
+if(!minAgeRestriction || typeof minAgeRestriction !== 'number' || minAgeRestriction > 18 ){
   errors.errorsMessages.push({
     message: 'not valid minAgeRestriction',
     field: 'minAgeRestriction'
