@@ -1,11 +1,22 @@
 import request from 'supertest'
 import {app, videoDb} from '../src/settings'
-describe('/testing/all-data', ()=>{
+const video = {
+title: 'string',
+author: 'string',
+availableResolutions:['P144']
+}
+describe('videos', ()=>{
     it('should return 204 and delete all videos',async () => {
         await request(app)
         .delete('/testing/all-data')
         .expect(204)
     })
+    it('should return 404',async () => {
+        await request(app)
+        .delete('/videos/23232')
+        .expect(404)        
+    })
+    
     it('should return 200 and array of objects', async ()=>{
       await  request(app)
         .get('/videos')
@@ -16,18 +27,14 @@ describe('/testing/all-data', ()=>{
         .get('/videos/2323223')
         .expect(404)
     })
-    it('should return 201 and create new video',async () => {
-const video = {
-title: 'string',
-author: 'string',
-availableResolutions:['P144']
-}
 
-       const res = await request(app)
+    it('should return 201 and create new video',async () => {
+
+        const res = await request(app)
         .post('/videos')
         .send(video)
         .expect(201)
-
+        
         expect(res.body).toEqual({
             id: expect.any(Number),
             title:video.title,
@@ -44,8 +51,6 @@ availableResolutions:['P144']
     //     await request(app)
     //     .get(+videoDb[1].id)
     // })
-
-
 
 
 })

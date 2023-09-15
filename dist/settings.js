@@ -72,15 +72,12 @@ exports.app.put('/videos/:id', (req, res) => {
             field: 'canBeDownloaded'
         });
     }
-    if (!minAgeRestriction || typeof minAgeRestriction !== 'number' || minAgeRestriction > 1 && minAgeRestriction < 18) {
+    if (!minAgeRestriction || typeof minAgeRestriction !== 'number' || minAgeRestriction > 18 && minAgeRestriction < 1) {
         errors.errorMessages.push({
             message: 'not valid minAgeRestriction',
             field: 'minAgeRestriction'
         });
     }
-    // if(!publicationDate){
-    //   videoDb.
-    // }
     if (errors.errorMessages.length) {
         res.sendStatus(400).send(errors);
         return;
@@ -105,7 +102,8 @@ exports.app.post('/videos', (req, res) => {
     };
     let { title, author, availableResolutions } = req.body;
     if (!title || !title.length || title.trim().length > 40) {
-        errors.errorMessages.push({ message: 'Invalid title', field: 'title' });
+        res.sendStatus(400).send({ errorMessages: [{ message: 'Invalid title', field: 'title' }] });
+        // errors.errorMessages.push({message: 'Invalid title', field: 'title'})
     }
     if (!author || author.trim().length > 20 || !author) {
         errors.errorMessages.push({ message: 'Invalid author', field: 'author' });
@@ -149,7 +147,7 @@ exports.app.delete('/videos/:id', (req, res) => {
     const id = +(req.params.id);
     const videoFordelete = exports.videoDb.find(v => v.id === id);
     if (!videoFordelete) {
-        res.sendStatus(404).send('haven`t got video'); // not executed
+        res.sendStatus(404); // not executed
     }
     for (let i = 0; i < exports.videoDb.length; i++) {
         if (exports.videoDb[i].id === id) {

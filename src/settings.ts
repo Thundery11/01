@@ -56,7 +56,7 @@ export const videoDb: VideoType[] =[{
 
 app.put('/videos/:id', (req: RequestWithParamsAndBody<{id: number, 
   title: string, author: string, availableResolutions: AvailableResolution[],
-  canBeDownloaded : boolean,  minAgeRestriction: number, publicationDate: string
+  canBeDownloaded : boolean,  minAgeRestriction: number | null, publicationDate: string
  }>, res: Response)=>{
 let errors : ErrorType ={
   errorMessages: []
@@ -85,15 +85,14 @@ if(typeof canBeDownloaded !== "boolean"){
     field: 'canBeDownloaded'
   })
 } 
-if(!minAgeRestriction || typeof minAgeRestriction !== 'number' ||  minAgeRestriction > 1 && minAgeRestriction < 18){
+
+if(!minAgeRestriction || typeof minAgeRestriction !== 'number' || minAgeRestriction > 18 && minAgeRestriction < 1 ){
   errors.errorMessages.push({
     message: 'not valid minAgeRestriction',
     field: 'minAgeRestriction'
   })
-}
-// if(!publicationDate){
-//   videoDb.
-// }
+} 
+
 if(errors.errorMessages.length){
   res.sendStatus(400).send(errors)
   return
@@ -104,7 +103,7 @@ if (video){
   video.author = author
   video.title = title
   video.availableResolutions = availableResolutions
-  video.canBeDownloaded = canBeDownloaded
+  video.canBeDownloaded = canBeDownloaded 
   video.minAgeRestriction = minAgeRestriction
   video.publicationDate = publicationDate
   res.send(204)
@@ -125,7 +124,9 @@ if (video){
     let {title, author, availableResolutions} = req.body
 
     if (!title || !title.length || title.trim().length > 40 ){
-      errors.errorMessages.push({message: 'Invalid title', field: 'title'})
+      res.sendStatus(400).send({errorMessages:[{message:'Invalid title', field: 'title'}]})
+      // errors.errorMessages.push({message: 'Invalid title', field: 'title'})
+      
     }
 
     if(!author || author.trim().length > 20 || !author){
@@ -174,7 +175,7 @@ if (video){
     const id = +(req.params.id)
     const videoFordelete = videoDb.find(v => v.id === id)
     if(!videoFordelete){
-      res.sendStatus(404).send('haven`t got video') // not executed
+      res.sendStatus(404) // not executed
     }
 for(let i = 0; i < videoDb.length; i++){
   if(videoDb[i].id === id){
